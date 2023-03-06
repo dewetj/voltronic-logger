@@ -6,11 +6,11 @@ xmodem_crc_func = crcmod.mkCrcFun(0x11021, rev=False, initCrc=0x0000, xorOut=0x0
 
 #dummy data list reponses for testing
 qpigs_structure = ['grid_voltage', 'grid_frequency', 'inverter_voltage', 'inverter_frequency', 'inverter_apparent_output', 'inverter_active_power', 'inverter_load', 'bus_voltage', 'battery_voltage','charge_current',
-                    'battery_capacity','inverter_temperature','pv_input_current','pv_input_voltage','battery_voltage_scc','discharge_current','inverter_status']
+                    'battery_capacity','inverter_temperature','pv_input_current','pv_input_voltage','battery_voltage_scc','discharge_current','inverter_status','battery_voltage_offset_fan','eeprom_version','pv_in_power','device_status']
 dummy_qpigs = ['240.0', '50.0', '240.0', '50.0', '0368', '0278', '007', '346', '49.70', '050', '096', '0042', '00.0', '000.0', '00.00', '00000', '00010000', '00', '00', '00000', '010zx9fxzr']
 
 qid_structure = ['serial_number']
-dummy_qid = ['12345678901234']
+dummy_qid = ['12345678901234zx9fxzr']
 
 qmod_structure = ['mode']
 dummy_qmod = ['Lzx9fxzr']
@@ -84,7 +84,10 @@ def map_datatypes(data_list):
     out_data.append(float(data_list[14]))
     out_data.append(float(data_list[15]))
     out_data.append(data_list[16])
-    #drop the unknown values
+    out_data.append(float(data_list[17]))
+    out_data.append(data_list[18])
+    out_data.append(float(data_list[19]))
+    out_data.append(data_list[20])
     #Clean mode as it can have shitty data in for some weird reason.
     if data_list[21] not in ['P','S','L','B','F','H']:
         out_data.append(' ')
@@ -95,6 +98,7 @@ def map_datatypes(data_list):
 
 def create_dict(data_list):
     data_keys = ["grid_voltage", "grid_frequency", "inverter_voltage", "inverter_frequency", "inverter_apparent_output", "inverter_active_power", "inverter_load", "bus_voltage", "battery_voltage","charge_current",
-                    "battery_capacity","inverter_temperature","pv_input_current","pv_input_voltage","battery_voltage_scc","discharge_current","inverter_status","mode"]
+                    "battery_capacity","inverter_temperature","pv_input_current","pv_input_voltage","battery_voltage_scc","discharge_current","inverter_status","battery_voltage_offset_fan","eeprom_version",
+                    "pv_in_power","device_status","mode"]
     data_dict = dict(zip(data_keys, data_list))
     return data_dict

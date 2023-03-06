@@ -14,7 +14,9 @@ class Elephant_db:
         self.create_data_table()
 
     def create_data_table(self):
-        #self.cur.execute("""DROP TABLE voltronic_log""")
+        if config.testing == True:
+            self.cur.execute("""DROP TABLE voltronic_log""")
+
         self.cur.execute("""CREATE TABLE IF NOT EXISTS voltronic_log
                             (
                             timestamp TIMESTAMP PRIMARY KEY,
@@ -35,13 +37,17 @@ class Elephant_db:
                             battery_voltage_scc DECIMAL,
                             discharge_current DECIMAL,
                             inverter_status TEXT,
+                            batter_voltage_offset_fan DECIMAL,
+                            eeprom_version TEXT,
+                            pv_in_power DECIMAL,
+                            device_status TEXT,
                             mode TEXT
                             )
                             """)
 
     def insert(self, data_list):
         try:
-            self.cur.execute("""INSERT INTO voltronic_log VALUES(current_timestamp,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+            self.cur.execute("""INSERT INTO voltronic_log VALUES(current_timestamp,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
                                 data_list)
         except:
             # Write a log
@@ -73,15 +79,19 @@ class Mqtt:
         self.client = mqtt_c.Client()
         # Set the username and password
         self.client.username_pw_set(config.mqtt_username, config.mqtt_password)
+        # Set callback for message
+        self.client.on_message = self.on_message
         # Connect to the MQTT broker
         self.client.connect(config.mqtt_broker)
+        # Subscribe to topic for commands from HomeAssistant
+        self.client.subscribe(config.mqtt_subscribe_topic)
 
     def publish(self, data_dict):
         try:
             # Convert to JSON
             json_data = json.dumps(data_dict)
             # Publish the message to the topic, refresh connection and retry on fail
-            if self.client.publish(config.mqtt_topic, json_data)[0] != 0:
+            if self.client.publish(config.mqtt_publish_topic, json_data)[0] != 0:
                 raise Exception("Failed to publish")
         except:
             # Try to restablish connection
@@ -93,6 +103,14 @@ class Mqtt:
             except:
                 print("Failed to reconnect to broker!")
                 pass
+
+    def listen(self):
+        # Check topic
+        self.client.loop_read()
+
+    def on_message(self, client, userdata, msg):
+        # print whatever is sent
+        print(str(msg.payload.decode("UTF-8")))
 
     def close(self):
         # Disconnect from the MQTT broker
@@ -144,4 +162,3 @@ class Qmod:
     def __init__(self, qmod):
         #instance variables
         self.mode = qmod[0]
-
