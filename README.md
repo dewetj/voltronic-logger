@@ -83,6 +83,10 @@ The config.py file also allows you to publish to a broker and topic of your choi
     "battery_voltage_scc": 0,
     "discharge_current": 0,
     "inverter_status": "00010101",
+    "battery_voltage_offset_fan": 0,
+    "eeprom_version": "00",
+    "pv_in_power": 0,
+    "device_status": "010",
     "mode": "L"
 }
 ```

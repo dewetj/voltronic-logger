@@ -87,7 +87,8 @@ def map_datatypes(data_list):
     out_data.append(float(data_list[17]))
     out_data.append(data_list[18])
     out_data.append(float(data_list[19]))
-    out_data.append(data_list[20])
+    #Clean device status as it sometimes has CRC values appended
+    out_data.append(data_list[20][0:3])
     #Clean mode as it can have shitty data in for some weird reason.
     if data_list[21] not in ['P','S','L','B','F','H']:
         out_data.append(' ')
