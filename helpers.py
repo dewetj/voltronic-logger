@@ -36,7 +36,7 @@ def execute_command(command):
         nbytes = 5
         return_list = dummy_qmod
     elif command == 'QPIRI':
-        nbytes = 98
+        nbytes = 108
         return_list = dummy_qpiri
     else:
         return ['']
