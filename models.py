@@ -97,7 +97,7 @@ class Elephant_db:
         self.con.close()
 
 ############################################################
-# MQTT class
+# MQTT class 
 ############################################################
 class Mqtt:
     #Constructor
