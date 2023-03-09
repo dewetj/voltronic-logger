@@ -208,7 +208,7 @@ class Qpiri:
         self.battery_recharge_voltage = qpiri[8]
         self.battery_under_voltage = qpiri[9]
         self.battery_bulk_voltage = qpiri[10]
-        self.Battery_float_voltage = qpiri[11]
+        self.battery_float_voltage = qpiri[11]
         self.battery_type = qpiri[12]
         self.current_max_ac_charging_current = qpiri[13]
         self.current_max_charging_current = qpiri[14]
