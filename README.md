@@ -7,7 +7,7 @@ Python program that runs on a Raspberry Pi or similar device connected to a Volt
 - paho-mqtt
 - crcmod
 
-All of the can be installed using pip.
+All of these can be installed using pip.
 
 # Configuration
 All of the configurations reside in config.py, it currently contains dummy connection strings and server locations, hence nothing will be logged or published.
