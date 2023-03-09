@@ -50,7 +50,7 @@ class Elephant_db:
                             ac_output_rating_apparent_power DECIMAL,
                             ac_output_rating_active_power DECIMAL,
                             battery_rating_voltage DECIMAL,
-                            battery_re-charge_voltage DECIMAL,
+                            battery_recharge_voltage DECIMAL,
                             battery_under_voltage DECIMAL,
                             battery_bulk_voltage DECIMAL,
                             Battery_float_voltage DECIMAL,
@@ -64,7 +64,7 @@ class Elephant_db:
                             machine_type TEXT,
                             topology TEXT,
                             output_mode TEXT,
-                            battery_re-discharge_voltage DECIMAL,
+                            battery_redischarge_voltage DECIMAL,
                             pv_ok_condition_for_parallel TEXT,
                             pv_power_balance TEXT,
                             unknown TEXT
