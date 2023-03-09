@@ -37,7 +37,7 @@ class Elephant_db:
                             battery_voltage_scc DECIMAL,
                             discharge_current DECIMAL,
                             inverter_status TEXT,
-                            batter_voltage_offset_fan DECIMAL,
+                            battery_voltage_offset_fan DECIMAL,
                             eeprom_version TEXT,
                             pv_in_power DECIMAL,
                             device_status TEXT,
@@ -140,10 +140,10 @@ class Qpigs:
         self.battery_voltage_scc = qpigs[14]
         self.discharge_current = qpigs[15]
         self.inverter_status = qpigs[16]
-        self.unk1 = qpigs[17]
-        self.unk2 = qpigs[18]
-        self.unk3 = qpigs[19]
-        self.unk4 = qpigs[20]
+        self.battery_voltage_offset_fan = qpigs[17]
+        self.eeprom_version= qpigs[18]
+        self.pv_in_power = qpigs[19]
+        self.device_status = qpigs[20]
 
 ############################################################
 # Device serial number enquiry
@@ -162,3 +162,36 @@ class Qmod:
     def __init__(self, qmod):
         #instance variables
         self.mode = qmod[0]
+
+############################################################
+# Device rating information enquiry
+############################################################
+class Qpiri:
+    #Constructor
+    def __init__(self, qpiri):
+        #instance variables
+        self.grid_rating_voltage = qpiri[0]
+        self.grid_rating_current = qpiri[1]
+        self.ac_output_rating_voltage = qpiri[2]
+        self.ac_output_rating_frequency = qpiri[3]
+        self.ac_output_rating_current = qpiri[4]
+        self.ac_output_rating_apparent_power = qpiri[5]
+        self.ac_output_rating_active_power = qpiri[6]
+        self.battery_rating_voltage = qpiri[7]
+        self.battery_recharge_voltage = qpiri[8]
+        self.battery_under_voltage = qpiri[9]
+        self.battery_bulk_voltage = qpiri[10]
+        self.Battery_float_voltage = qpiri[11]
+        self.battery_type = qpiri[12]
+        self.current_max_ac_charging_current = qpiri[13]
+        self.current_max_charging_current = qpiri[14]
+        self.input_voltage_range = qpiri[15]
+        self.output_source_priority = qpiri[16]
+        self.charger_source_priority = qpiri[17]
+        self.parallel_max_num = qpiri[18]
+        self.machine_type = qpiri[19]
+        self.topology = qpiri[20]
+        self.output_mode = qpiri[21]
+        self.battery_redischarge_voltage = qpiri[22]
+        self.pv_ok_condition_for_parallel = qpiri[23]
+        self.pv_power_balance = qpiri[24]

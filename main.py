@@ -11,6 +11,8 @@ if config.mqtt_active == True:
     mqtt = Mqtt()
 
 while True:
+    qpiri_list = execute_command('QPIRI')
+    print(qpiri_list)
     qpigs_list = execute_command('QPIGS')
     qmod_list = execute_command('QMOD')
     qpigs_list.append(qmod_list[0][0:1])
