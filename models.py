@@ -195,3 +195,4 @@ class Qpiri:
         self.battery_redischarge_voltage = qpiri[22]
         self.pv_ok_condition_for_parallel = qpiri[23]
         self.pv_power_balance = qpiri[24]
+        self.unknown = qpiri[25]

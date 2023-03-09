@@ -17,8 +17,8 @@ dummy_qmod = ['Lzx9fxzr']
 
 qpiri_structure = ['grid_rating_voltage', 'grid_rating_current', 'ac_output_rating_voltage', 'ac_output_rating_frequency', 'ac_output_rating_current', 'ac_output_rating_apparent_power', 'ac_output_rating_active_power', 'battery_rating_voltage',
                     'battery_recharge_voltage', 'battery_under_voltage', 'battery_bulk_voltage', 'Battery_float_voltage', 'battery_type', 'current_max_ac_charging_current', 'current_max_charging_current', 'input_voltage_range',
-                     'output_source_priority', 'charger_source_priority', 'parallel_max_num', 'machine_type', 'topology', 'output_mode', 'battery_redischarge_voltage', 'pv_ok_condition_for_parallel', 'pv_power_balance']
-dummy_qpiri = ['230.0', '13.0', '230.0', '50.0', '13.0', '3000', '3000', '24.0', '25.0', '21.5', '27.5', '27.5', '2', '02', '010', '0', '2', '3', '1', '01', '0', '0', '27.0', '0', '1zx9fxzr']
+                     'output_source_priority', 'charger_source_priority', 'parallel_max_num', 'machine_type', 'topology', 'output_mode', 'battery_redischarge_voltage', 'pv_ok_condition_for_parallel', 'pv_power_balance', 'unknown']
+dummy_qpiri = ['230.0', '21.7', '230.0', '50.0', '21.7', '5000', '5000', '48.0', '48.0', '45.0', '53.2', '53.2', '3', '050', '000', '1', '0', '2', '9', '00', '0', '0', '51.0', '0', '1', '0']
 
 def calc_crc(comando):
     global crc
