@@ -41,13 +41,40 @@ class Elephant_db:
                             eeprom_version TEXT,
                             pv_in_power DECIMAL,
                             device_status TEXT,
-                            mode TEXT
+                            mode TEXT,
+                            grid_rating_voltage DECIMAL,
+                            grid_rating_current DECIMAL,
+                            ac_output_rating_voltage DECIMAL,
+                            ac_output_rating_frequency DECIMAL,
+                            ac_output_rating_current DECIMAL,
+                            ac_output_rating_apparent_power DECIMAL,
+                            ac_output_rating_active_power DECIMAL,
+                            battery_rating_voltage DECIMAL,
+                            battery_re-charge_voltage DECIMAL,
+                            battery_under_voltage DECIMAL,
+                            battery_bulk_voltage DECIMAL,
+                            Battery_float_voltage DECIMAL,
+                            battery_type TEXT,
+                            current_max_ac_charging_current DECIMAL,
+                            current_max_charging_current DECIMAL,
+                            input_voltage_range TEXT,
+                            output_source_priority TEXT,
+                            charger_source_priority TEXT,
+                            parallel_max_num DECIMAL,
+                            machine_type TEXT,
+                            topology TEXT,
+                            output_mode TEXT,
+                            battery_re-discharge_voltage DECIMAL,
+                            pv_ok_condition_for_parallel TEXT,
+                            pv_power_balance TEXT,
+                            unknown TEXT
                             )
                             """)
 
     def insert(self, data_list):
         try:
-            self.cur.execute("""INSERT INTO voltronic_log VALUES(current_timestamp,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+            self.cur.execute("""INSERT INTO voltronic_log VALUES(current_timestamp,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+                                %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
                                 data_list)
         except:
             # Write a log
