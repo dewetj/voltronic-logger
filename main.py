@@ -13,9 +13,10 @@ if config.mqtt_active == True:
 while True:
     qpigs_list = execute_command('QPIGS')
     qmod_list = execute_command('QMOD')
-    qpigs_list.append(qmod_list[0][0:1])
+    qpiri_list = execute_command('QPIRI')
+    combined_list = qpigs_list + qmod_list + qpiri_list
     # Convert to a tuple and insert into Postgres DB
-    mapped_data = map_datatypes(qpigs_list)
+    mapped_data = map_datatypes(combined_list)
     if config.db_active == True:
         row = tuple(mapped_data) 
         db.insert(row)
@@ -24,4 +25,6 @@ while True:
         mqtt.publish(create_dict(mapped_data))
         # listen for commands
         mqtt.listen()
-        time.sleep(5)
+
+    # Wait before poling again
+    time.sleep(5)
