@@ -76,6 +76,8 @@ class Elephant_db:
             self.cur.execute("""INSERT INTO voltronic_log VALUES(current_timestamp,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
                                 %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
                                 data_list)
+            # Commit changes    
+            self.con.commit()
         except:
             # Write a log
             print("Failed to insert row")
@@ -89,8 +91,7 @@ class Elephant_db:
                 print("Failed to reconnect to DB!")
                 pass
 
-        # Commit changes    
-        self.con.commit()
+
 
     def close(self):
         # Disconnect from the DB
