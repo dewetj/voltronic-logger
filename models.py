@@ -91,8 +91,6 @@ class Elephant_db:
                 print("Failed to reconnect to DB!")
                 pass
 
-
-
     def close(self):
         # Disconnect from the DB
         self.con.close()
