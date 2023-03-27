@@ -24,6 +24,7 @@ mqtt:
     - name: "voltronic-inverter-active-power"
       state_topic: "/garage/inverter"
       unit_of_measurement: "W"
+      device_class: power
       value_template: "{{ value_json.inverter_active_power }}"
     - name: "voltronic-inverter-load"
       state_topic: "/garage/inverter"
@@ -78,6 +79,7 @@ mqtt:
     - name: "voltronic-pv-in-power"
       state_topic: "/garage/inverter"
       unit_of_measurement: "W"
+      device_class: power
       value_template: "{{ value_json.pv_in_power}}"
     - name: "voltronic-device-status"
       state_topic: "/garage/inverter"
@@ -89,18 +91,22 @@ mqtt:
     - name: "voltronic-pv-power"
       state_topic: "/garage/inverter"
       unit_of_measurement: "W"
+      device_class: power
       value_template: "{{ value_json.pv_input_current * value_json.pv_input_voltage}}"
     - name: "voltronic-battery-discharge-power"
       state_topic: "/garage/inverter"
       unit_of_measurement: "W"
+      device_class: power
       value_template: "{{ value_json.battery_voltage * value_json.discharge_current}}"
     - name: "voltronic-battery-charge-power"
       state_topic: "/garage/inverter"
       unit_of_measurement: "W"
+      device_class: power
       value_template: "{{ value_json.battery_voltage * value_json.charge_current}}"
     - name: "voltronic-grid-active-power"
       state_topic: "/garage/inverter"
       unit_of_measurement: "W"
+      device_class: power
       value_template: |-
         {% if value_json.grid_voltage > 0 %}
           {{ value_json.inverter_active_power }}
