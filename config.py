@@ -1,6 +1,11 @@
 ##### TEST OR LIVE ######
 testing = True
 
+##### Program log  #####
+log_info = False
+log_warning = True
+log_location = "/usr/voltronic-logger/log.txt"
+
 ##### Database Configs  #####
 db_active = True
 db_string = "postgres://live_user:live_password@someprovider_url/live_db"

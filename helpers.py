@@ -27,16 +27,16 @@ def calc_crc(comando):
 
 def execute_command(command):
     if command == 'QPIGS':
-        nbytes = 107
+        nbytes = 110
         return_list = dummy_qpigs
     elif command == 'QID':
         nbytes = 18
         return_list = dummy_qid
     elif command == 'QMOD':
-        nbytes = 2
+        nbytes = 5
         return_list = dummy_qmod
     elif command == 'QPIRI':
-        nbytes = 100
+        nbytes = 102
         return_list = dummy_qpiri
     else:
         return ['']
@@ -56,16 +56,19 @@ def execute_command(command):
     string_command = command+chr(crc1)+chr(crc2)+'\r'
     bytes_command = string_command.encode('ISO-8859-1')
 
-    fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
-    fd.flush()
-    fd.write(bytes_command)
-    data_in_bytes = fd.read(nbytes)
-    fd.close()
-        
-    data_in_string = data_in_bytes.decode('ISO-8859-1')
-    data_as_list = data_in_string.split("//")
-
-    return_list = data_as_list[0][1:].split(" ")
+    try:
+        fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
+        fd.flush()
+        fd.write(bytes_command)
+        data_in_bytes = fd.read(nbytes)
+        fd.close()           
+        data_in_string = data_in_bytes.decode('ISO-8859-1')
+        data_as_list = data_in_string.split("//")
+        return_list = data_as_list[0][1:].split(" ")
+    except:
+        log_warning("Failed to write to USB")
+        return_list = ['']
+        pass
 
     return return_list
 
@@ -99,10 +102,10 @@ def map_datatypes(data_list):
     #Clean device status as it sometimes has CRC values appended
     out_data.append(data_list[20][0:3])
     #Clean mode as it can have shitty data in for some weird reason.
-    if data_list[21] not in ['P','S','L','B','F','H']:
+    if data_list[21][0:1] not in ['P','S','L','B','F','H']:
         out_data.append(' ')
     else:
-        out_data.append(data_list[21])
+        out_data.append(data_list[21][0:1])
     #QPIRI
     out_data.append(float(data_list[22]))
     out_data.append(float(data_list[23]))
@@ -129,10 +132,22 @@ def map_datatypes(data_list):
     out_data.append(float(data_list[44]))
     out_data.append(data_list[45])
     out_data.append(data_list[46])
-    out_data.append(data_list[47])
+    out_data.append(data_list[47][0:3])
     return out_data
 
 def create_dict(data_list):
     data_keys = qpigs_structure + qmod_structure + qpiri_structure
     data_dict = dict(zip(data_keys, data_list))
     return data_dict
+
+def log_warning(message):
+    if config.log_warning == True:
+        with open(config.log_location, 'a') as f:
+            f.write(message)
+            f.write('\n')
+
+def log_info(message):
+    if config.log_info == True:
+        with open(config.log_location, 'a') as f:
+            f.write(message)
+            f.write('\n')

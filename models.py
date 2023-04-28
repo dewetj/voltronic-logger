@@ -2,6 +2,7 @@ import psycopg2
 import paho.mqtt.client as mqtt_c
 import json
 import config
+from helpers import *
 
 ############################################################
 # Postgres DB class
@@ -12,6 +13,9 @@ class Elephant_db:
         self.con = psycopg2.connect(config.db_string)
         self.cur = self.con.cursor()
         self.create_data_table()
+
+        #After DB is created, set a timeout for inserts
+        self.cur.execute("SET statement_timeout = 5")
 
     def create_data_table(self):
         if config.testing == True:
@@ -87,6 +91,7 @@ class Elephant_db:
                 self.con.close()
                 self.con = psycopg2.connect(config.db_string)
                 self.cur = self.con.cursor()
+                self.cur.execute("SET statement_timeout = 5")
             except:
                 print("Failed to reconnect to DB!")
                 pass
