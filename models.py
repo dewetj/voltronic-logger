@@ -84,16 +84,16 @@ class Elephant_db:
             self.con.commit()
         except:
             # Write a log
-            print("Failed to insert row")
+            log_warning("Failed to insert row!")
             # Can try infinitely without crashing
             try:
-                print("Reconnecting...")
+                log_warning("Reconnecting...")
                 self.con.close()
                 self.con = psycopg2.connect(config.db_string)
                 self.cur = self.con.cursor()
                 self.cur.execute("SET statement_timeout = 5")
             except:
-                print("Failed to reconnect to DB!")
+                log_warning("Failed to reconnect to DB!")
                 pass
 
     def close(self):
@@ -122,17 +122,18 @@ class Mqtt:
             # Convert to JSON
             json_data = json.dumps(data_dict)
             # Publish the message to the topic, refresh connection and retry on fail
+            log_info("Publishing to MQTT broker...")
             if self.client.publish(config.mqtt_publish_topic, json_data)[0] != 0:
                 raise Exception("Failed to publish")
         except:
             # Try to restablish connection
-            print("Could not publish")
+            log_warning("Could not publish")
             try:
                 self.client.disconnect()
                 self.client.connect(config.mqtt_broker)
-                print("Reconnecting...")
+                log_warning("Reconnecting...")
             except:
-                print("Failed to reconnect to broker!")
+                log_warning("Failed to reconnect to broker!")
                 pass
 
     def listen(self):

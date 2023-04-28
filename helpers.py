@@ -66,11 +66,12 @@ def execute_command(command):
         data_in_string = data_in_bytes.decode('ISO-8859-1')
         data_as_list = data_in_string.split("//")
         return_list = data_as_list[0][1:].split(" ")
-    except:
-        log_warning("Failed to write to USB")
-        return_list = ['']
-        pass
-
+    except Exception as e:
+        log_warning("Failed to write " + command + " with exception:")
+        log_warning(str(e))
+        #Hard crash so service can restart and usb remounts
+        raise Exception("Forced crash!")
+    
     return return_list
 
 def map_mode(qmod):
