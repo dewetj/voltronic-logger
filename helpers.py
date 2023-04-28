@@ -1,6 +1,7 @@
 import crcmod
 import datetime
 import config
+from datetime import datetime
 
 xmodem_crc_func = crcmod.mkCrcFun(0x11021, rev=False, initCrc=0x0000, xorOut=0x0000)
 
@@ -142,12 +143,14 @@ def create_dict(data_list):
 
 def log_warning(message):
     if config.log_warning == True:
+        sttime = datetime.now().strftime('%Y%m%d_%H:%M:%S - ')
         with open(config.log_location, 'a') as f:
-            f.write(message)
+            f.write(sttime + message)
             f.write('\n')
 
 def log_info(message):
     if config.log_info == True:
+        sttime = datetime.now().strftime('%Y%m%d_%H:%M:%S - ')
         with open(config.log_location, 'a') as f:
-            f.write(message)
+            f.write(sttime + message)
             f.write('\n')
