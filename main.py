@@ -24,8 +24,11 @@ while True:
         log_info("Mapping data...")
         mapped_data = map_datatypes(combined_list)
         log_info("Data mapped successfully!")
+        fail_count = 0
     except:
-        log_warning("Could not map data!")
+        fail_count += 1
+        log_warning(str(fail_count) + " - Could not map data!")
+        time.sleep(5)
         continue
     
     if config.db_active == True:
