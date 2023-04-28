@@ -27,6 +27,7 @@ def calc_crc(comando):
     return crc
 
 def execute_command(command):
+    log_info("Executing " + command + "...")
     if command == 'QPIGS':
         nbytes = 110
         return_list = dummy_qpigs
@@ -63,14 +64,15 @@ def execute_command(command):
         fd.write(bytes_command)
         data_in_bytes = fd.read(nbytes)
         fd.close()           
-        data_in_string = data_in_bytes.decode('ISO-8859-1')
-        data_as_list = data_in_string.split("//")
-        return_list = data_as_list[0][1:].split(" ")
     except Exception as e:
         log_warning("Failed to write " + command + " with exception:")
         log_warning(str(e))
         #Hard crash so service can restart and usb remounts
         raise Exception("Forced crash!")
+    
+    data_in_string = data_in_bytes.decode('ISO-8859-1')
+    data_as_list = data_in_string.split("//")
+    return_list = data_as_list[0][1:].split(" ")
     
     return return_list
 
