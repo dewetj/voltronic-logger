@@ -1,5 +1,7 @@
 import crcmod
 import datetime
+import time
+import signal
 import config
 from datetime import datetime
 
@@ -60,20 +62,27 @@ def execute_command(command):
 
     try:
         fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
-        fd.flush()
+    except:
+        log_warning("Failed to open hidraw0")
+        return ['']
+
+    try:
         fd.write(bytes_command)
-        data_in_bytes = fd.read(nbytes)
-        fd.close()           
     except Exception as e:
         log_warning("Failed to write " + command + " with exception:")
         log_warning(str(e))
-        #Hard crash so service can restart and usb remounts
-        raise Exception("Forced crash!")
-    
-    data_in_string = data_in_bytes.decode('ISO-8859-1')
-    data_as_list = data_in_string.split("//")
-    return_list = data_as_list[0][1:].split(" ")
-    
+        fd.close()
+        return ['']
+
+    try:
+        #Wait a second in case there is a delayed response...
+        time.sleep(1)
+        data_in_bytes = fd.read(nbytes)
+    except:
+        log_warning("Failed to read hidraw0")
+        fd.close()
+        return ['']
+  
     return return_list
 
 def map_mode(qmod):
@@ -157,3 +166,15 @@ def log_info(message):
         with open(config.log_location, 'a') as f:
             f.write(sttime + message)
             f.write('\n')
+
+class Timeout:
+    def __init__(self, seconds=1, error_message='Timeout'):
+        self.seconds = seconds
+        self.error_message = error_message
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)

@@ -15,10 +15,15 @@ if config.mqtt_active == True:
     log_warning("MQTT Active!")
 
 while True:
-    qpigs_list = execute_command('QPIGS')
-    qmod_list = execute_command('QMOD')
-    qpiri_list = execute_command('QPIRI')
+    # If commands timeout, an exception will be thrown and service will be restarted by daemon
+    with Timeout(seconds=10):
+        qpigs_list = execute_command('QPIGS')
+        qmod_list = execute_command('QMOD')
+        qpiri_list = execute_command('QPIRI')
+
+    # Combine the list for all the commands
     combined_list = qpigs_list + qmod_list + qpiri_list
+
     # Convert to a tuple and insert into Postgres DB
     try:
         log_info("Mapping data...")
@@ -27,7 +32,7 @@ while True:
     except:
         log_warning("Could not map data:")
         log_warning(str(combined_list))
-        time.sleep(10)
+        time.sleep(4)
         continue
     
     if config.db_active == True:
@@ -43,14 +48,6 @@ while True:
         mqtt.listen()
         log_info("Published successfully!")
 
-    # Clear processed data
-    log_info("Clearing lists...")
-    qpigs_list.clear()
-    qmod_list.clear()
-    qpiri_list.clear()
-    combined_list.clear()
-    log_info("Lists cleared successfully!")
-
     # Wait before poling again
     log_info("Sleeping...")
-    time.sleep(5)
+    time.sleep(4)
