@@ -31,6 +31,7 @@ After=multi-user.target
 Type=idle
 ExecStart=python /usr/voltronic-logger/main.py > /usr/voltronic-logger/main.log 2>&1
 Restart=on-failure
+RestartSec=10s
 User=root
 
 [Install]
