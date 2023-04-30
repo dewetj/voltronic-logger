@@ -61,28 +61,42 @@ def execute_command(command):
     bytes_command = string_command.encode('ISO-8859-1')
 
     try:
-        fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
-    except:
-        log_warning("Failed to open hidraw0")
-        return ['']
+        try:
+            fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
+        except Exception as openerr:
+            log_warning("Failed to open hidraw0 with exception:")
+            log_warning(str(openerr))
+            return ['']
 
-    try:
-        fd.write(bytes_command)
+        try:
+            fd.write(bytes_command)
+        except Exception as writeerr:
+            log_warning("Failed to write " + command + " with exception:")
+            log_warning(str(writeerr))
+            fd.close()
+            return ['']
+        
+        try:
+            #Wait a second in case there is a delayed response...
+            time.sleep(1)
+            data_in_bytes = fd.read(nbytes)
+        except Exception as readerr:
+            log_warning("Failed to read hidraw0 with exception:")
+            log_warning(str(readerr))
+            fd.close()
+            return ['']
+        
+        fd.close()
+        data_in_string = data_in_bytes.decode('ISO-8859-1')
+        data_as_list = data_in_string.split("//")
+        return_list = data_as_list[0][1:].split(" ")
+        
     except Exception as e:
-        log_warning("Failed to write " + command + " with exception:")
+        log_warning("General exception:")
         log_warning(str(e))
-        fd.close()
-        return ['']
+        # Thow the exception again after logging so the service can restart
+        raise Exception("Something went very wrong!!!")
 
-    try:
-        #Wait a second in case there is a delayed response...
-        time.sleep(1)
-        data_in_bytes = fd.read(nbytes)
-    except:
-        log_warning("Failed to read hidraw0")
-        fd.close()
-        return ['']
-  
     return return_list
 
 def map_mode(qmod):
@@ -166,15 +180,3 @@ def log_info(message):
         with open(config.log_location, 'a') as f:
             f.write(sttime + message)
             f.write('\n')
-
-class Timeout:
-    def __init__(self, seconds=1, error_message='Timeout'):
-        self.seconds = seconds
-        self.error_message = error_message
-    def handle_timeout(self, signum, frame):
-        raise TimeoutError(self.error_message)
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
-    def __exit__(self, type, value, traceback):
-        signal.alarm(0)
