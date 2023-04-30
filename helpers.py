@@ -61,41 +61,23 @@ def execute_command(command):
     bytes_command = string_command.encode('ISO-8859-1')
 
     try:
-        try:
-            fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
-        except Exception as openerr:
-            log_warning("Failed to open hidraw0 with exception:")
-            log_warning(str(openerr))
-            return ['']
+        fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
+        fd.write(bytes_command)
 
-        try:
-            fd.write(bytes_command)
-        except Exception as writeerr:
-            log_warning("Failed to write " + command + " with exception:")
-            log_warning(str(writeerr))
-            fd.close()
-            return ['']
-        
-        try:
-            #Wait a second in case there is a delayed response...
-            time.sleep(1)
-            data_in_bytes = fd.read(nbytes)
-        except Exception as readerr:
-            log_warning("Failed to read hidraw0 with exception:")
-            log_warning(str(readerr))
-            fd.close()
-            return ['']
-        
+        #Wait a second in case there is a delayed response...
+        time.sleep(1)
+        data_in_bytes = fd.read(nbytes)
         fd.close()
+
         data_in_string = data_in_bytes.decode('ISO-8859-1')
         data_as_list = data_in_string.split("//")
         return_list = data_as_list[0][1:].split(" ")
         
     except Exception as e:
-        log_warning("General exception:")
+        log_warning("File error:")
         log_warning(str(e))
         # Thow the exception again after logging so the service can restart
-        raise Exception("Something went very wrong!!!")
+        raise Exception("See log.txt!!!")
 
     return return_list
 
