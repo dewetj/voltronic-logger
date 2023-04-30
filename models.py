@@ -2,6 +2,7 @@ import psycopg2
 import paho.mqtt.client as mqtt_c
 import json
 import config
+import signal
 from helpers import *
 
 ############################################################

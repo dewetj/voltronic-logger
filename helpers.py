@@ -1,7 +1,6 @@
 import crcmod
 import datetime
 import time
-import signal
 import config
 from datetime import datetime
 
