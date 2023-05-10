@@ -109,7 +109,133 @@ mqtt:
       device_class: power
       value_template: |-
         {% if value_json.grid_voltage > 0 %}
-          {{ value_json.inverter_active_power }}
+          {% if (value_json.inverter_active_power + (value_json.battery_voltage * value_json.charge_current)) - (value_json.pv_in_power + (value_json.battery_voltage * value_json.discharge_current)) < 0 %}
+            {{ 0 }}
+          {% else %}
+            {{ (value_json.inverter_active_power + (value_json.battery_voltage * value_json.charge_current)) - (value_json.pv_in_power + (value_json.battery_voltage * value_json.discharge_current))  }}
+          {% endif %}
         {% else %}
-          {{ value_json.grid_voltage }}
+          {{ 0 }}
         {% endif %}
+    - name: "voltronic-pv-home-consumption"
+      state_topic: "/garage/inverter"
+      unit_of_measurement: "W"
+      device_class: power
+      value_template: "{{value_json.pv_in_power - (value_json.battery_voltage * value_json.charge_current)}}"
+    - name: "voltronic-pv-battery-charge"
+      state_topic: "/garage/inverter"
+      unit_of_measurement: "W"
+      device_class: power
+      value_template: "{{value_json.battery_voltage * value_json.pv_input_current}}"
+    - name: "voltronic-charger-source-priority"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.charger_source_priority == "0" %}
+          {{ "Utility First" }}
+        {% elif value_json.charger_source_priority == "1" %}
+          {{ "Solar First" }}
+        {% elif value_json.charger_source_priority == "2" %}
+          {{ "Solar & Utility" }}
+        {% elif value_json.charger_source_priority == "3" %}
+          {{ "Solar Only" }}
+        {% else %}
+          {{ "Unavailable" }}
+        {% endif %}
+    - name: "voltronic-output-source-priority"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.output_source_priority == "0" %}
+          {{ "Utility Solar Battery" }}
+        {% elif value_json.output_source_priority == "1" %}
+          {{ "Solar Utility Battery" }}
+        {% elif value_json.output_source_priority == "2" %}
+          {{ "Solar Battery Utility" }}
+        {% else %}
+          {{ "Unknown" }}
+        {% endif %}
+## switches
+  switch:
+    - name: "voltronic-charge-uti"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.charger_source_priority == "0" %}
+          {{ "1" }}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "PCP00"
+    - name: "voltronic-charge-sol"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.charger_source_priority == "1" %}
+          {{ "1" }}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "PCP01"
+    - name: "voltronic-charge-snu"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.charger_source_priority == "2" %}
+          {{ "1" }}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "PCP02"
+    - name: "voltronic-charge-oso"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.charger_source_priority == "3" %}
+          {{ "1" }}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "PCP03"
+    - name: "voltronic-output-usb"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.output_source_priority == "0" %}
+          {{ "1"}}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "POP00"
+    - name: "voltronic-output-sub"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.output_source_priority == "1" %}
+          {{ "1" }}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "POP01"
+    - name: "voltronic-output-sbu"
+      state_topic: "/garage/inverter"
+      value_template: |-
+        {% if value_json.output_source_priority == "2" %}
+          {{ "1" }}
+        {% else %}
+          {{ "0" }}
+        {% endif %}
+      command_topic: "/garage/inverter/command"
+      state_on: "1"
+      state_off: "0"
+      payload_on: "POP02"

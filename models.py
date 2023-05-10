@@ -3,7 +3,8 @@ import paho.mqtt.client as mqtt_c
 import json
 import config
 import signal
-from helpers import *
+from helpers import log_warning
+from helpers import execute_command
 
 ############################################################
 # Postgres DB class
@@ -123,7 +124,6 @@ class Mqtt:
             # Convert to JSON
             json_data = json.dumps(data_dict)
             # Publish the message to the topic, refresh connection and retry on fail
-            log_info("Publishing to MQTT broker...")
             if self.client.publish(config.mqtt_publish_topic, json_data)[0] != 0:
                 raise Exception("Failed to publish")
         except:
@@ -142,9 +142,15 @@ class Mqtt:
         self.client.loop_read()
 
     def on_message(self, client, userdata, msg):
-        # print whatever is sent
-        print(str(msg.payload.decode("UTF-8")))
-
+        # log whatever is sent
+        try:
+            payload = str(msg.payload.decode("UTF-8"))
+            log_warning(payload)
+            command_response = execute_command(payload)
+            log_warning(str(command_response))
+        except:
+            log_warning("Could not update settings!")
+            
     def close(self):
         # Disconnect from the MQTT broker
         self.client.disconnect()

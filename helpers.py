@@ -22,6 +22,9 @@ qpiri_structure = ['grid_rating_voltage', 'grid_rating_current', 'ac_output_rati
                      'output_source_priority', 'charger_source_priority', 'parallel_max_num', 'machine_type', 'topology', 'output_mode', 'battery_redischarge_voltage', 'pv_ok_condition_for_parallel', 'pv_power_balance', 'unknown']
 dummy_qpiri = ['230.0', '21.7', '230.0', '50.0', '21.7', '5000', '5000', '48.0', '48.0', '45.0', '53.2', '53.2', '3', '050', '000', '1', '0', '2', '9', '00', '0', '0', '51.0', '0', '1', '000']
 
+pcp_structure = ['response']
+dummy_pcp = ['ACK']
+
 def calc_crc(comando):
     global crc
     crc = hex(xmodem_crc_func(comando))
@@ -41,6 +44,12 @@ def execute_command(command):
     elif command == 'QPIRI':
         nbytes = 102
         return_list = dummy_qpiri
+    elif command[0:3] == 'PCP':
+        nbytes = 5
+        return_list = dummy_pcp
+    elif command[0:3] == 'POP':
+        nbytes = 5
+        return_list = dummy_pcp
     else:
         return ['']
 
