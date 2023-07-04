@@ -6,6 +6,9 @@ log_info = False
 log_warning = True
 log_location = "/usr/voltronic-logger/log.txt"
 
+##### Logging Interval #####
+logging_interval = 5
+
 ##### Database Configs  #####
 db_active = True
 db_string = "postgres://live_user:live_password@someprovider_url/live_db"

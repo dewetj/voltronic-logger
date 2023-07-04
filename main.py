@@ -32,7 +32,7 @@ while True:
     except:
         log_warning("Could not map data:")
         log_warning(str(combined_list))
-        time.sleep(4)
+        time.sleep(config.logging_interval)
         continue
     
     if config.db_active == True:
@@ -50,4 +50,4 @@ while True:
 
     # Wait before poling again
     log_info("Sleeping...")
-    time.sleep(4)
+    time.sleep(config.logging_interval)
