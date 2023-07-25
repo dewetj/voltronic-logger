@@ -131,8 +131,11 @@ class Mqtt:
             log_warning("Could not publish")
             try:
                 self.client.disconnect()
-                self.client.connect(config.mqtt_broker)
                 log_warning("Reconnecting...")
+                self.client.connect(config.mqtt_broker)
+                log_warning("Reconnected! Resubscribing...")
+                self.client.subscribe(config.mqtt_subscribe_topic)
+                log_warning("Resubscribed!")
             except:
                 log_warning("Failed to reconnect to broker!")
                 pass
