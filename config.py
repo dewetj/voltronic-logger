@@ -21,6 +21,7 @@ mqtt_broker = "127.0.0.1"
 mqtt_username = "mqtt-username"
 mqtt_password = "mqtt_password"
 mqtt_subscribe_topic = "/garage/inverter/command"
+mqtt_retry_limit = 5
 
 # Use test links
 if testing == True:

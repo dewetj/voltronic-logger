@@ -118,6 +118,8 @@ class Mqtt:
         self.client.connect(config.mqtt_broker)
         # Subscribe to topic for commands from HomeAssistant
         self.client.subscribe(config.mqtt_subscribe_topic)
+        # Retry counter
+        self.retry_count = 0
 
     def publish(self, data_dict):
         try:
@@ -137,7 +139,8 @@ class Mqtt:
                 self.client.subscribe(config.mqtt_subscribe_topic)
                 log_warning("Resubscribed!")
             except:
-                log_warning("Failed to reconnect to broker!")
+                self.retry_count += 1
+                log_warning("Failed to reconnect to broker attempt: " + str(self.retry_count))
                 pass
 
     def listen(self):

@@ -4,6 +4,7 @@ import config
 from helpers import *
 from models import *
 
+backup_log()
 log_warning("Logger starting...")
 
 # instantiate the class
@@ -30,8 +31,8 @@ while True:
         mapped_data = map_datatypes(combined_list)
         log_info("Data mapped successfully!")
     except:
-        log_warning("Could not map data:")
-        log_warning(str(combined_list))
+        log_warning("Could not map data!")
+        log_info(str(combined_list))
         time.sleep(config.logging_interval)
         continue
     
@@ -45,7 +46,11 @@ while True:
         log_info("Publishing to MQTT...")
         mqtt.publish(create_dict(mapped_data))
         # listen for commands
-        mqtt.listen()
+        mqtt.listen()   
+        # Kill the process if retries keep failing...
+        if mqtt.retry_count >= config.mqtt_retry_stop:
+            log_warning("Retry Counter Reached, killing process!")
+            raise("Kill!")
         log_info("Published successfully!")
 
     # Wait before poling again

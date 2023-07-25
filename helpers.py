@@ -2,6 +2,7 @@ import crcmod
 import datetime
 import time
 import config
+import os
 from datetime import datetime
 
 xmodem_crc_func = crcmod.mkCrcFun(0x11021, rev=False, initCrc=0x0000, xorOut=0x0000)
@@ -170,3 +171,11 @@ def log_info(message):
         with open(config.log_location, 'a') as f:
             f.write(sttime + message)
             f.write('\n')
+
+def backup_log():
+    try:
+        sttime = datetime.now().strftime('_%Y%m%d_%H%M%S.txt')
+        os.rename(config.log_location, config.log_location.replace('.txt',sttime))
+        log_warning("Previous log backed up!")
+    except:
+        log_warning("No previous log found!")
