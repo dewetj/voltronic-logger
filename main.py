@@ -1,5 +1,6 @@
 import time
 import config
+import platform
 
 from helpers import *
 from models import *
@@ -16,11 +17,17 @@ if config.mqtt_active == True:
     log_warning("MQTT Active!")
 
 while True:
-    # If commands timeout, an exception will be thrown and service will be restarted by daemon
-    with Timeout(seconds=10):
+    # If commands timeout, an exception will be thrown and service will be restarted by daemon... Only works on linux
+    if platform.system() == 'Linux':
+        with Timeout(seconds=10):
+            qpigs_list = execute_command('QPIGS')
+            qmod_list = execute_command('QMOD')
+            qpiri_list = execute_command('QPIRI')
+    else:
         qpigs_list = execute_command('QPIGS')
         qmod_list = execute_command('QMOD')
         qpiri_list = execute_command('QPIRI')
+
 
     # Combine the list for all the commands
     combined_list = qpigs_list + qmod_list + qpiri_list
