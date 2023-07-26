@@ -15,13 +15,13 @@ db_string = "postgres://live_user:live_password@someprovider_url/live_db"
 
 ##### MQTT Configs  #####
 # Turn MQTT on or off
-mqtt_active = False
+mqtt_active = True
 mqtt_publish_topic = "/garage/inverter"
 mqtt_broker = "127.0.0.1"
 mqtt_username = "mqtt-username"
 mqtt_password = "mqtt_password"
 mqtt_subscribe_topic = "/garage/inverter/command"
-mqtt_retry_limit = 5
+mqtt_retry_limit = 20
 
 # Use test links
 if testing == True:

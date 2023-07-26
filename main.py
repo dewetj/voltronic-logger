@@ -55,7 +55,7 @@ while True:
         # listen for commands
         mqtt.listen()   
         # Kill the process if retries keep failing...
-        if mqtt.retry_count >= config.mqtt_retry_stop:
+        if mqtt.retry_count >= config.mqtt_retry_limit:
             log_warning("Retry Counter Reached, killing process!")
             raise("Kill!")
         log_info("Published successfully!")
