@@ -138,6 +138,7 @@ class Mqtt:
                 log_warning("Reconnected! Resubscribing...")
                 self.client.subscribe(config.mqtt_subscribe_topic)
                 log_warning("Resubscribed!")
+                self.retry_count = 0
             except:
                 self.retry_count += 1
                 log_warning("Failed to reconnect to broker attempt: " + str(self.retry_count))
