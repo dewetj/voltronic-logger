@@ -1,229 +1,315 @@
-# Configurion file to add the inverter as an MQTT sensor, you need to append this to your homeassistant configuration.yaml file
 mqtt:
   sensor:
-    - name: "voltronic-grid-voltage"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.grid_voltage }}"
-    - name: "voltronic-grid-frequency"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "Hz"
-      value_template: "{{ value_json.grid_frequency }}"
-    - name: "voltronic-inverter-voltage"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.inverter_voltage }}"
-    - name: "voltronic-inverter-frequency"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "Hz"
-      value_template: "{{ value_json.inverter_frequency }}"
-    - name: "voltronic-inverter-apparent-output"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "VA"
-      value_template: "{{ value_json.inverter_apparent_output }}"
-    - name: "voltronic-inverter-active-power"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "W"
-      device_class: power
-      value_template: "{{ value_json.inverter_active_power }}"
-    - name: "voltronic-inverter-load"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "%"
-      value_template: "{{ value_json.inverter_load}}"
-    - name: "voltronic-bus-voltage"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.bus_voltage}}"
-    - name: "voltronic-battery-voltage"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.battery_voltage}}"
-    - name: "voltronic-charge-current"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "A"
-      value_template: "{{ value_json.charge_current}}"
-    - name: "voltronic-battery-capacity"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "%"
-      value_template: "{{ value_json.battery_capacity}}"
-    - name: "voltronic-inverter-temperature"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "°C"
-      value_template: "{{ value_json.inverter_temperature}}"
-    - name: "voltronic-pv-input-current"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "A"
-      value_template: "{{ value_json.pv_input_current}}"
-    - name: "voltronic-pv-input-voltage"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.pv_input_voltage}}"
-    - name: "voltronic-battery-voltage-scc"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.battery_voltage_scc}}"
-    - name: "voltronic-discharge-current"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "A"
-      value_template: "{{ value_json.discharge_current}}"
-    - name: "voltronic-inverter-status"
-      state_topic: "/garage/inverter"
-      value_template: "{{ value_json.inverter_status}}"
-    - name: "voltronic-battery-voltage-offset-fan"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "V"
-      value_template: "{{ value_json.battery_voltage_offset_fan}}"
-    - name: "voltronic-eeprom-version"
-      state_topic: "/garage/inverter"
-      value_template: "{{ value_json.eeprom_version}}"
-    - name: "voltronic-pv-in-power"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "W"
-      device_class: power
-      value_template: "{{ value_json.pv_in_power}}"
-    - name: "voltronic-device-status"
-      state_topic: "/garage/inverter"
-      value_template: "{{ value_json.device_status}}"
-    - name: "voltronic-mode"
-      state_topic: "/garage/inverter"
-      value_template: "{{ value_json.mode}}"
-    ### Calculated sensors
-    - name: "voltronic-battery-discharge-power"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "W"
-      device_class: power
-      force_update: true
-      value_template: "{{ value_json.battery_voltage * value_json.discharge_current}}"
-    - name: "voltronic-battery-charge-power"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "W"
-      device_class: power
-      force_update: true
-      value_template: "{{ value_json.battery_voltage * value_json.charge_current}}"
-    - name: "voltronic-grid-active-power"
-      state_topic: "/garage/inverter"
-      unit_of_measurement: "W"
-      device_class: power
-      force_update: true
-      value_template: |-
-        {% if value_json.grid_voltage > 0 %}
-          {% if (value_json.inverter_active_power + (value_json.battery_voltage * value_json.charge_current)) - (value_json.pv_in_power + (value_json.battery_voltage * value_json.discharge_current)) < 0 %}
-            {{ 0 }}
-          {% else %}
-            {{ (value_json.inverter_active_power + (value_json.battery_voltage * value_json.charge_current)) - (value_json.pv_in_power + (value_json.battery_voltage * value_json.discharge_current))  }}
-          {% endif %}
-        {% else %}
+  - name: "grid-voltage"
+    unique_id: "voltronic-s1"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.grid_voltage }}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "grid-frequency"
+    unique_id: "voltronic-s2"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "Hz"
+    value_template: "{{ value_json.grid_frequency }}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-voltage"
+    unique_id: "voltronic-s3"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.inverter_voltage }}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-frequency"
+    unique_id: "voltronic-s4"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "Hz"
+    value_template: "{{ value_json.inverter_frequency }}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-apparent-output"
+    unique_id: "voltronic-s5"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "VA"
+    value_template: "{{ value_json.inverter_apparent_output }}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-active-power"
+    unique_id: "voltronic-s6"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "W"
+    device_class: power
+    value_template: "{{ value_json.inverter_active_power }}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-load"
+    unique_id: "voltronic-s7"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "%"
+    value_template: "{{ value_json.inverter_load}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "bus-voltage"
+    unique_id: "voltronic-s8"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.bus_voltage}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "battery-voltage"
+    unique_id: "voltronic-s9"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.battery_voltage}}"
+    force_update: true
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "charge-current"
+    unique_id: "voltronic-s10"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "A"
+    value_template: "{{ value_json.charge_current}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "battery-capacity"
+    unique_id: "voltronic-s11"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "%"
+    value_template: "{{ value_json.battery_capacity}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-temperature"
+    unique_id: "voltronic-s12"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "°C"
+    value_template: "{{ value_json.inverter_temperature}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "pv-input-current"
+    unique_id: "voltronic-s13"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "A"
+    value_template: "{{ value_json.pv_input_current}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "pv-input-voltage"
+    unique_id: "voltronic-s14"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.pv_input_voltage}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "battery-voltage-scc"
+    unique_id: "voltronic-s15"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.battery_voltage_scc}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "discharge-current"
+    unique_id: "voltronic-s16"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "A"
+    value_template: "{{ value_json.discharge_current}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "inverter-status"
+    unique_id: "voltronic-s17"
+    state_topic: "/garage/inverter"
+    value_template: "{{ value_json.inverter_status}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "battery-voltage-offset-fan"
+    unique_id: "voltronic-s18"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "V"
+    value_template: "{{ value_json.battery_voltage_offset_fan}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "eeprom-version"
+    unique_id: "voltronic-s19"
+    state_topic: "/garage/inverter"
+    value_template: "{{ value_json.eeprom_version}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "pv-in-power"
+    unique_id: "voltronic-s20"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "W"
+    device_class: power
+    value_template: "{{ value_json.pv_in_power}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "device-status"
+    unique_id: "voltronic-s21"
+    state_topic: "/garage/inverter"
+    value_template: "{{ value_json.device_status}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "mode"
+    unique_id: "voltronic-s22"
+    state_topic: "/garage/inverter"
+    value_template: "{{ value_json.mode}}"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  ### Calculated sensors
+  - name: "battery-discharge-power"
+    unique_id: "voltronic-s23"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "W"
+    device_class: power
+    force_update: true
+    value_template: "{{ value_json.battery_voltage * value_json.discharge_current}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "battery-charge-power"
+    unique_id: "voltronic-s24"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "W"
+    device_class: power
+    force_update: true
+    value_template: "{{value_json.battery_voltage * value_json.charge_current}}"
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "grid-active-power"
+    unique_id: "voltronic-s25"
+    state_topic: "/garage/inverter"
+    unit_of_measurement: "W"
+    device_class: power
+    force_update: true
+    value_template: |-
+      {% if value_json.grid_voltage > 0 %}
+        {% if (value_json.inverter_active_power + (value_json.battery_voltage * value_json.charge_current)) - (value_json.pv_in_power + (value_json.battery_voltage * value_json.discharge_current)) < 0 %}
           {{ 0 }}
-        {% endif %}
-    - name: "voltronic-charger-source-priority"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.charger_source_priority == "0" %}
-          {{ "Utility First" }}
-        {% elif value_json.charger_source_priority == "1" %}
-          {{ "Solar First" }}
-        {% elif value_json.charger_source_priority == "2" %}
-          {{ "Solar & Utility" }}
-        {% elif value_json.charger_source_priority == "3" %}
-          {{ "Solar Only" }}
         {% else %}
-          {{ "Unavailable" }}
+          {{ (value_json.inverter_active_power + (value_json.battery_voltage * value_json.charge_current)) - (value_json.pv_in_power + (value_json.battery_voltage * value_json.discharge_current))  }}
         {% endif %}
-    - name: "voltronic-output-source-priority"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.output_source_priority == "0" %}
-          {{ "Utility Solar Battery" }}
-        {% elif value_json.output_source_priority == "1" %}
-          {{ "Solar Utility Battery" }}
-        {% elif value_json.output_source_priority == "2" %}
-          {{ "Solar Battery Utility" }}
-        {% else %}
-          {{ "Unknown" }}
-        {% endif %}
-## switches
+      {% else %}
+        {{ 0 }}
+      {% endif %}
+    state_class: measurement
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "charger-source-priority"
+    unique_id: "voltronic-s26"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.charger_source_priority == "0" %}
+        {{ "Utility First" }}
+      {% elif value_json.charger_source_priority == "1" %}
+        {{ "Solar First" }}
+      {% elif value_json.charger_source_priority == "2" %}
+        {{ "Solar & Utility" }}
+      {% elif value_json.charger_source_priority == "3" %}
+        {{ "Solar Only" }}
+      {% else %}
+        {{ "Unavailable" }}
+      {% endif %}
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "output-source-priority"
+    unique_id: "voltronic-s27"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.output_source_priority == "0" %}
+        {{ "Utility Solar Battery" }}
+      {% elif value_json.output_source_priority == "1" %}
+        {{ "Solar Utility Battery" }}
+      {% elif value_json.output_source_priority == "2" %}
+        {{ "Solar Battery Utility" }}
+      {% else %}
+        {{ "Unknown" }}
+      {% endif %}
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  ## switches
   switch:
-    - name: "voltronic-charge-uti"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.charger_source_priority == "0" %}
-          {{ "1" }}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "PCP00"
-    - name: "voltronic-charge-sol"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.charger_source_priority == "1" %}
-          {{ "1" }}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "PCP01"
-    - name: "voltronic-charge-snu"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.charger_source_priority == "2" %}
-          {{ "1" }}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "PCP02"
-    - name: "voltronic-charge-oso"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.charger_source_priority == "3" %}
-          {{ "1" }}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "PCP03"
-    - name: "voltronic-output-usb"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.output_source_priority == "0" %}
-          {{ "1"}}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "POP00"
-    - name: "voltronic-output-sub"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.output_source_priority == "1" %}
-          {{ "1" }}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "POP01"
-    - name: "voltronic-output-sbu"
-      state_topic: "/garage/inverter"
-      value_template: |-
-        {% if value_json.output_source_priority == "2" %}
-          {{ "1" }}
-        {% else %}
-          {{ "0" }}
-        {% endif %}
-      command_topic: "/garage/inverter/command"
-      state_on: "1"
-      state_off: "0"
-      payload_on: "POP02"
+  - name: "charge-uti"
+    unique_id: "voltronic-t1"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.charger_source_priority == "0" %}
+        {{ "1" }}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "PCP00"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "charge-sol"
+    unique_id: "voltronic-t2"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.charger_source_priority == "1" %}
+        {{ "1" }}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "PCP01"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "charge-snu"
+    unique_id: "voltronic-t3"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.charger_source_priority == "2" %}
+        {{ "1" }}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "PCP02"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "charge-oso"
+    unique_id: "voltronic-t4"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.charger_source_priority == "3" %}
+        {{ "1" }}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "PCP03"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "output-usb"
+    unique_id: "voltronic-t5"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.output_source_priority == "0" %}
+        {{ "1"}}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "POP00"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "output-sub"
+    unique_id: "voltronic-t6"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.output_source_priority == "1" %}
+        {{ "1" }}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "POP01"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
+  - name: "output-sbu"
+    unique_id: "voltronic-t7"
+    state_topic: "/garage/inverter"
+    value_template: |-
+      {% if value_json.output_source_priority == "2" %}
+        {{ "1" }}
+      {% else %}
+        {{ "0" }}
+      {% endif %}
+    command_topic: "/garage/inverter/command"
+    state_on: "1"
+    state_off: "0"
+    payload_on: "POP02"
+    device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
