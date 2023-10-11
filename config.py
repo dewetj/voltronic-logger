@@ -2,9 +2,9 @@
 testing = True
 
 ##### Inverter Model #####
-inverter_make = "Kodak"
-inverter_model = "OGX5.48a"
-inverter_serial_number = "SN123"
+inverter_make = "Axpert"
+inverter_model = "King"
+inverter_serial_number = "123456789"
 
 ##### Program log  #####
 log_info = True
@@ -27,6 +27,7 @@ mqtt_username = "mqtt-username"
 mqtt_password = "mqtt_password"
 mqtt_subscribe_topic = "/garage/inverter/command"
 mqtt_retry_limit = 20
+mqtt_discovery = False
 
 # Use test links
 if testing == True:

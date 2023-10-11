@@ -121,6 +121,20 @@ class Mqtt:
         # Retry counter
         self.retry_count = 0
 
+    def setupDiscovery(self):
+        # Setup Sensors...
+        with open('mqtt_discovery.json') as sensors_file:
+            sensors_config = json.load(sensors_file)
+
+        for sensor in sensors_config:
+            sensor["device"]["name"] = config.inverter_make + " " + config.inverter_model
+            sensor["device"]["identifiers"] = config.inverter_serial_number
+            sensor["device"]["manufacturer"] = config.inverter_make
+            sensor["device"]["model"] = config.inverter_model
+            sensor["state_topic"] = config.mqtt_publish_topic
+            config_topic = "homeassistant/sensor/" + sensor["unique_id"] + "/config"
+            self.client.publish(config_topic, json.dumps(sensor))
+
     def publish(self, data_dict):
         try:
             # Convert to JSON

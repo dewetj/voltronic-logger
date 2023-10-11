@@ -1,0 +1,318 @@
+[
+    {
+      "name": "grid-voltage",
+      "unique_id": "voltronic-s1",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.grid_voltage }}",
+      "state_class": "measurement",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "grid-frequency",
+      "unique_id": "voltronic-s2",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "Hz",
+      "value_template": "{{ value_json.grid_frequency }}",
+      "state_class": "measurement",
+      "device_class": "frequency",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-voltage",
+      "unique_id": "voltronic-s3",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.inverter_voltage }}",
+      "state_class": "measurement",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-frequency",
+      "unique_id": "voltronic-s4",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "Hz",
+      "value_template": "{{ value_json.inverter_frequency }}",
+      "state_class": "measurement",
+      "device_class": "frequency",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-apparent-output",
+      "unique_id": "voltronic-s5",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "VA",
+      "value_template": "{{ value_json.inverter_apparent_output }}",
+      "state_class": "measurement",
+      "device_class": "apparent_power",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-active-power",
+      "unique_id": "voltronic-s6",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "W",
+      "value_template": "{{ value_json.inverter_active_power }}",
+      "state_class": "measurement",
+      "device_class": "power",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-load",
+      "unique_id": "voltronic-s7",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "%",
+      "value_template": "{{ value_json.inverter_load}}",
+      "state_class": "measurement",
+      "device_class": "power_factor",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "bus-voltage",
+      "unique_id": "voltronic-s8",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.bus_voltage}}",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "battery-voltage",
+      "unique_id": "voltronic-s9",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.battery_voltage}}",
+      "force_update": true,
+      "state_class": "measurement",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "charge-current",
+      "unique_id": "voltronic-s10",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "A",
+      "value_template": "{{ value_json.charge_current}}",
+      "state_class": "measurement",
+      "device_class": "current",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "battery-capacity",
+      "unique_id": "voltronic-s11",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "%",
+      "value_template": "{{ value_json.battery_capacity}}",
+      "state_class": "measurement",
+      "device_class": "battery",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-temperature",
+      "unique_id": "voltronic-s12",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "C",
+      "value_template": "{{ value_json.inverter_temperature}}",
+      "state_class": "measurement",
+      "device_class": "temperature",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "pv-input-current",
+      "unique_id": "voltronic-s13",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "A",
+      "value_template": "{{ value_json.pv_input_current}}",
+      "state_class": "measurement",
+      "device_class": "current",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "pv-input-voltage",
+      "unique_id": "voltronic-s14",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.pv_input_voltage}}",
+      "state_class": "measurement",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "battery-voltage-scc",
+      "unique_id": "voltronic-s15",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.battery_voltage_scc}}",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "discharge-current",
+      "unique_id": "voltronic-s16",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "A",
+      "value_template": "{{ value_json.discharge_current}}",
+      "state_class": "measurement",
+      "device_class": "current",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "inverter-status",
+      "unique_id": "voltronic-s17",
+      "state_topic": "inverter_topic",
+      "value_template": "{{ value_json.inverter_status}}",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "battery-voltage-offset-fan",
+      "unique_id": "voltronic-s18",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "V",
+      "value_template": "{{ value_json.battery_voltage_offset_fan}}",
+      "device_class": "voltage",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "eeprom-version",
+      "unique_id": "voltronic-s19",
+      "state_topic": "inverter_topic",
+      "value_template": "{{ value_json.eeprom_version}}",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "pv-in-power",
+      "unique_id": "voltronic-s20",
+      "state_topic": "inverter_topic",
+      "unit_of_measurement": "W",
+      "value_template": "{{ value_json.pv_in_power}}",
+      "state_class": "measurement",
+      "device_class": "power",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "device-status",
+      "unique_id": "voltronic-s21",
+      "state_topic": "inverter_topic",
+      "value_template": "{{ value_json.device_status}}",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    },
+    {
+      "name": "mode",
+      "unique_id": "voltronic-s22",
+      "state_topic": "inverter_topic",
+      "value_template": "{{ value_json.mode}}",
+      "device": {
+        "name": "Inverter_name",
+        "identifiers": "inverter_sn",
+        "manufacturer": "inverter_manufacturer",
+        "model": "inverter_model"
+      }
+    }
+]

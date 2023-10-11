@@ -15,6 +15,9 @@ if config.db_active == True:
 if config.mqtt_active == True:
     mqtt = Mqtt()
     log_warning("MQTT Active!")
+    if config.mqtt_discovery == True:
+        mqtt.setupDiscovery()
+        log_warning("MQTT Discovery Setup Complete!")
 
 while True:
     # If commands timeout, an exception will be thrown and service will be restarted by daemon... Only works on linux

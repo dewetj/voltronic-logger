@@ -121,3 +121,5 @@ The config.py file also allows you to publish to a broker and topic of your choi
 
 # HomeAssistant
 I have included a yaml file (voltronic_mqtt.yaml) which you can append to your HomeAssistant configuration.yaml file to add the inverter data as sensors. It's based on the JSON structure provided in the MQTT section above.
+
+Alternatively, you can set mqtt_discovery to True in the config.py file, this will automatically add your inverter as a Device in HomeAssistant with the device name as the Make plus Model in your config.py file. You still need to have MQTT up and running in HomeAssistant for this to work.
