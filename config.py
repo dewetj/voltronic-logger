@@ -1,6 +1,11 @@
 ##### TEST OR LIVE ######
 testing = True
 
+##### Inverter Model #####
+inverter_make = "Kodak"
+inverter_model = "OGX5.48a"
+inverter_serial_number = "SN123"
+
 ##### Program log  #####
 log_info = True
 log_warning = True
