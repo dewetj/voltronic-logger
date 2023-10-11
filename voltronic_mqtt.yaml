@@ -6,6 +6,7 @@ mqtt:
     unit_of_measurement: "V"
     value_template: "{{ value_json.grid_voltage }}"
     state_class: measurement
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "grid-frequency"
     unique_id: "voltronic-s2"
@@ -13,6 +14,7 @@ mqtt:
     unit_of_measurement: "Hz"
     value_template: "{{ value_json.grid_frequency }}"
     state_class: measurement
+    device_class: frequency
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-voltage"
     unique_id: "voltronic-s3"
@@ -20,6 +22,7 @@ mqtt:
     unit_of_measurement: "V"
     value_template: "{{ value_json.inverter_voltage }}"
     state_class: measurement
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-frequency"
     unique_id: "voltronic-s4"
@@ -27,6 +30,7 @@ mqtt:
     unit_of_measurement: "Hz"
     value_template: "{{ value_json.inverter_frequency }}"
     state_class: measurement
+    device_class: frequency
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-apparent-output"
     unique_id: "voltronic-s5"
@@ -34,14 +38,15 @@ mqtt:
     unit_of_measurement: "VA"
     value_template: "{{ value_json.inverter_apparent_output }}"
     state_class: measurement
+    device_class: apparent_power
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-active-power"
     unique_id: "voltronic-s6"
     state_topic: "/garage/inverter"
     unit_of_measurement: "W"
-    device_class: power
     value_template: "{{ value_json.inverter_active_power }}"
     state_class: measurement
+    device_class: power
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-load"
     unique_id: "voltronic-s7"
@@ -49,12 +54,14 @@ mqtt:
     unit_of_measurement: "%"
     value_template: "{{ value_json.inverter_load}}"
     state_class: measurement
+    device_class: power_factor
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "bus-voltage"
     unique_id: "voltronic-s8"
     state_topic: "/garage/inverter"
     unit_of_measurement: "V"
     value_template: "{{ value_json.bus_voltage}}"
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "battery-voltage"
     unique_id: "voltronic-s9"
@@ -63,6 +70,7 @@ mqtt:
     value_template: "{{ value_json.battery_voltage}}"
     force_update: true
     state_class: measurement
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "charge-current"
     unique_id: "voltronic-s10"
@@ -70,6 +78,7 @@ mqtt:
     unit_of_measurement: "A"
     value_template: "{{ value_json.charge_current}}"
     state_class: measurement
+    device_class: current
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "battery-capacity"
     unique_id: "voltronic-s11"
@@ -77,6 +86,7 @@ mqtt:
     unit_of_measurement: "%"
     value_template: "{{ value_json.battery_capacity}}"
     state_class: measurement
+    device_class: battery
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-temperature"
     unique_id: "voltronic-s12"
@@ -84,6 +94,7 @@ mqtt:
     unit_of_measurement: "°C"
     value_template: "{{ value_json.inverter_temperature}}"
     state_class: measurement
+    device_class: temperature
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "pv-input-current"
     unique_id: "voltronic-s13"
@@ -91,6 +102,7 @@ mqtt:
     unit_of_measurement: "A"
     value_template: "{{ value_json.pv_input_current}}"
     state_class: measurement
+    device_class: current
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "pv-input-voltage"
     unique_id: "voltronic-s14"
@@ -98,12 +110,14 @@ mqtt:
     unit_of_measurement: "V"
     value_template: "{{ value_json.pv_input_voltage}}"
     state_class: measurement
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "battery-voltage-scc"
     unique_id: "voltronic-s15"
     state_topic: "/garage/inverter"
     unit_of_measurement: "V"
     value_template: "{{ value_json.battery_voltage_scc}}"
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "discharge-current"
     unique_id: "voltronic-s16"
@@ -111,6 +125,7 @@ mqtt:
     unit_of_measurement: "A"
     value_template: "{{ value_json.discharge_current}}"
     state_class: measurement
+    device_class: current
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "inverter-status"
     unique_id: "voltronic-s17"
@@ -122,6 +137,7 @@ mqtt:
     state_topic: "/garage/inverter"
     unit_of_measurement: "V"
     value_template: "{{ value_json.battery_voltage_offset_fan}}"
+    device_class: voltage
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "eeprom-version"
     unique_id: "voltronic-s19"
@@ -132,9 +148,9 @@ mqtt:
     unique_id: "voltronic-s20"
     state_topic: "/garage/inverter"
     unit_of_measurement: "W"
-    device_class: power
     value_template: "{{ value_json.pv_in_power}}"
     state_class: measurement
+    device_class: power
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "device-status"
     unique_id: "voltronic-s21"
@@ -151,25 +167,24 @@ mqtt:
     unique_id: "voltronic-s23"
     state_topic: "/garage/inverter"
     unit_of_measurement: "W"
-    device_class: power
     force_update: true
     value_template: "{{ value_json.battery_voltage * value_json.discharge_current}}"
     state_class: measurement
+    device_class: power
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "battery-charge-power"
     unique_id: "voltronic-s24"
     state_topic: "/garage/inverter"
     unit_of_measurement: "W"
-    device_class: power
     force_update: true
     value_template: "{{value_json.battery_voltage * value_json.charge_current}}"
     state_class: measurement
+    device_class: power
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "grid-active-power"
     unique_id: "voltronic-s25"
     state_topic: "/garage/inverter"
     unit_of_measurement: "W"
-    device_class: power
     force_update: true
     value_template: |-
       {% if value_json.grid_voltage > 0 %}
@@ -182,6 +197,7 @@ mqtt:
         {{ 0 }}
       {% endif %}
     state_class: measurement
+    device_class: power
     device: {"name": "Voltronic Inverter", "identifiers": "SN Here", "manufacturer": "Kodak", "model": "OGX5.48a"}
   - name: "charger-source-priority"
     unique_id: "voltronic-s26"
