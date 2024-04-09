@@ -9,7 +9,7 @@ inverter_serial_number = "123456789"
 ##### Program log  #####
 log_info = True
 log_warning = True
-log_location = "/usr/voltronic-logger-log.txt" #for Linux use someting like /usr/voltronic-logger/log.txt
+log_location = "log.txt" #for Linux use someting like /usr/voltronic-logger/log.txt
 
 ##### Logging Interval #####
 logging_interval = 5
