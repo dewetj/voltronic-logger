@@ -3,11 +3,9 @@ Python program that runs on a Raspberry Pi or similar device connected to a Volt
 
 # Prerequisites
 - Python
-- psycopg2
-- paho-mqtt
-- crcmod
 
-All of these can be installed using pip.
+All prerequisites can be installed using pip and the provided `requirements.txt` file:
+`pip install -r requirements.txt`
 
 # Configuration
 All of the configurations reside in config.py, it currently contains dummy connection strings and server locations, hence nothing will be logged or published.
