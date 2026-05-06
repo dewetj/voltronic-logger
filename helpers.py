@@ -1,5 +1,4 @@
 import crcmod
-import datetime
 import time
 import config
 import os
@@ -85,62 +84,24 @@ def map_mode(qmod):
     return modes[qmod[0]]
         
 def map_datatypes(data_list):
-    out_data = list()
-    #QPIGS
-    out_data.append(float(data_list[0]))
-    out_data.append(float(data_list[1]))
-    out_data.append(float(data_list[2]))
-    out_data.append(float(data_list[3]))
-    out_data.append(float(data_list[4]))
-    out_data.append(float(data_list[5]))
-    out_data.append(float(data_list[6]))
-    out_data.append(float(data_list[7]))
-    out_data.append(float(data_list[8]))
-    out_data.append(float(data_list[9]))
-    out_data.append(float(data_list[10]))
-    out_data.append(float(data_list[11]))
-    out_data.append(float(data_list[12]))
-    out_data.append(float(data_list[13]))
-    out_data.append(float(data_list[14]))
-    out_data.append(float(data_list[15]))
-    out_data.append(data_list[16])
-    out_data.append(float(data_list[17]))
-    out_data.append(data_list[18])
-    out_data.append(float(data_list[19]))
-    #Clean device status as it sometimes has CRC values appended
-    out_data.append(data_list[20][0:3])
-    #Clean mode as it can have shitty data in for some weird reason.
-    if data_list[21][0:1] not in ['P','S','L','B','F','H']:
-        out_data.append(' ')
-    else:
-        out_data.append(data_list[21][0:1])
-    #QPIRI
-    out_data.append(float(data_list[22]))
-    out_data.append(float(data_list[23]))
-    out_data.append(float(data_list[24]))
-    out_data.append(float(data_list[25]))
-    out_data.append(float(data_list[26]))
-    out_data.append(float(data_list[27]))
-    out_data.append(float(data_list[28]))
-    out_data.append(float(data_list[29]))
-    out_data.append(float(data_list[30]))
-    out_data.append(float(data_list[31]))
-    out_data.append(float(data_list[32]))
-    out_data.append(float(data_list[33]))
-    out_data.append(data_list[34])
-    out_data.append(float(data_list[35]))
-    out_data.append(float(data_list[36]))
-    out_data.append(data_list[37])
-    out_data.append(data_list[38])
-    out_data.append(data_list[39])
-    out_data.append(float(data_list[40]))
-    out_data.append(data_list[41])
-    out_data.append(data_list[42])
-    out_data.append(data_list[43])
-    out_data.append(float(data_list[44]))
-    out_data.append(data_list[45])
-    out_data.append(data_list[46])
-    out_data.append(data_list[47][0:3])
+    out_data = []
+    string_indices = {16, 18, 34, 37, 38, 39, 41, 42, 43, 45, 46}
+    
+    for i, val in enumerate(data_list):
+        if i == 20:
+            # Clean device status as it sometimes has CRC values appended
+            out_data.append(val[0:3])
+        elif i == 21:
+            # Clean mode as it can have shitty data in for some weird reason.
+            char = val[0:1]
+            out_data.append(char if char in ['P','S','L','B','F','H'] else ' ')
+        elif i == 47:
+            out_data.append(val[0:3])
+        elif i in string_indices:
+            out_data.append(val)
+        else:
+            out_data.append(float(val))
+            
     return out_data
 
 def create_dict(data_list):
@@ -167,5 +128,7 @@ def backup_log():
         sttime = datetime.now().strftime('_%Y%m%d_%H%M%S.txt')
         os.rename(config.log_location, config.log_location.replace('.txt',sttime))
         log_warning("Previous log backed up!")
-    except:
+    except FileNotFoundError:
         log_warning("No previous log found!")
+    except Exception as e:
+        log_warning(f"Failed to backup log: {e}")
