@@ -26,11 +26,6 @@ dummy_qpiri = ['230.0', '21.7', '230.0', '50.0', '21.7', '5000', '5000', '48.0',
 pcp_structure = ['response']
 dummy_pcp = ['ACK']
 
-def calc_crc(comando):
-    global crc
-    crc = hex(xmodem_crc_func(comando))
-    return crc
-
 def execute_command(command):
     log_info("Executing " + command + "...")
     if command == 'QPIGS':
@@ -58,16 +53,11 @@ def execute_command(command):
     if config.testing == True:
         return return_list
 
-    calc_crc(command.encode('utf-8'))
-
-    crc1=crc[0:4]
-    crc2=crc[0:2]+crc[4:6]
-
-    crc1=int(crc1, base=16)
-    crc2=int(crc2, base=16)
-
-    string_command = command+chr(crc1)+chr(crc2)+'\r'
-    bytes_command = string_command.encode('ISO-8859-1')
+    # Encode command and calculate CRC
+    command_bytes = command.encode('ISO-8859-1')
+    crc_val = xmodem_crc_func(command_bytes)
+    crc_bytes = crc_val.to_bytes(2, byteorder='big')
+    bytes_command = command_bytes + crc_bytes + b'\r'
 
     try:
         fd = open('/dev/hidraw0', 'rb+') #Open file to read and write in bytes (rb+)
