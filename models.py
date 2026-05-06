@@ -109,7 +109,7 @@ class Mqtt:
     #Constructor
     def __init__(self):
         # Create an MQTT client instance
-        self.client = mqtt_c.Client()
+        self.client = mqtt_c.Client(mqtt_c.CallbackAPIVersion.VERSION1)
         # Set the username and password
         self.client.username_pw_set(config.mqtt_username, config.mqtt_password)
         # Set callback for message
