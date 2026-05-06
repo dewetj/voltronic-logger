@@ -84,9 +84,9 @@ class Elephant_db:
                                 data_list)
             # Commit changes    
             self.con.commit()
-        except:
+        except Exception as e:
             # Write a log
-            log_warning("Failed to insert row!")
+            log_warning(f"Failed to insert row! Error: {e}")
             # Can try infinitely without crashing
             try:
                 log_warning("Reconnecting...")
@@ -94,9 +94,8 @@ class Elephant_db:
                 self.con = psycopg2.connect(config.db_string)
                 self.cur = self.con.cursor()
                 self.cur.execute("SET statement_timeout = 5")
-            except:
-                log_warning("Failed to reconnect to DB!")
-                pass
+            except Exception as reconnect_error:
+                log_warning(f"Failed to reconnect to DB! Error: {reconnect_error}")
 
     def close(self):
         # Disconnect from the DB
@@ -109,7 +108,7 @@ class Mqtt:
     #Constructor
     def __init__(self):
         # Create an MQTT client instance
-        self.client = mqtt_c.Client(mqtt_c.CallbackAPIVersion.VERSION1)
+        self.client = mqtt_c.Client()
         # Set the username and password
         self.client.username_pw_set(config.mqtt_username, config.mqtt_password)
         # Set callback for message
@@ -142,9 +141,9 @@ class Mqtt:
             # Publish the message to the topic, refresh connection and retry on fail
             if self.client.publish(config.mqtt_publish_topic, json_data)[0] != 0:
                 raise Exception("Failed to publish")
-        except:
+        except Exception as e:
             # Try to restablish connection
-            log_warning("Could not publish")
+            log_warning(f"Could not publish. Error: {e}")
             try:
                 self.client.disconnect()
                 log_warning("Reconnecting...")
@@ -153,10 +152,9 @@ class Mqtt:
                 self.client.subscribe(config.mqtt_subscribe_topic)
                 log_warning("Resubscribed!")
                 self.retry_count = 0
-            except:
+            except Exception as reconnect_error:
                 self.retry_count += 1
-                log_warning("Failed to reconnect to broker attempt: " + str(self.retry_count))
-                pass
+                log_warning(f"Failed to reconnect to broker attempt {self.retry_count}: {reconnect_error}")
 
     def listen(self):
         # Check topic
@@ -169,8 +167,8 @@ class Mqtt:
             log_warning(payload)
             command_response = execute_command(payload)
             log_warning(str(command_response))
-        except:
-            log_warning("Could not update settings!")
+        except Exception as e:
+            log_warning(f"Could not update settings! Error: {e}")
             
     def close(self):
         # Disconnect from the MQTT broker
