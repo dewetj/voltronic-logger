@@ -11,13 +11,13 @@ def main():
     log_warning("Logger starting...")
 
     # instantiate the class
-    if config.db_active == True:
+    if config.db_active:
         db = Elephant_db()
         log_warning("DB Active!")
-    if config.mqtt_active == True:
+    if config.mqtt_active:
         mqtt = Mqtt()
         log_warning("MQTT Active!")
-        if config.mqtt_discovery == True:
+        if config.mqtt_discovery:
             mqtt.setupDiscovery()
             log_warning("MQTT Discovery Setup Complete!")
 
@@ -48,13 +48,13 @@ def main():
             time.sleep(config.logging_interval)
             continue
         
-        if config.db_active == True:
+        if config.db_active:
             log_info("Inserting into DB...")
             row = tuple(mapped_data) 
             db.insert(row)
             log_info("Inserted successfully!")
         # Convert to a dictionary and publish to MQTT
-        if config.mqtt_active == True:
+        if config.mqtt_active:
             log_info("Publishing to MQTT...")
             mqtt.publish(create_dict(mapped_data))
             # listen for commands
